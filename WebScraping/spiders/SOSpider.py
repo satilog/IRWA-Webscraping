@@ -5,7 +5,7 @@ import scrapy
 class SospiderSpider(scrapy.Spider):
     name = 'SOSpider'
     allowed_domains = ['stackoverflow.com']
-    start_urls = ['https://stackoverflow.com/questions/tagged/python?page=14&sort=votes&pagesize=50']
+    start_urls = ['https://stackoverflow.com/questions/tagged/python?sort=votes&pageSize=50']
 
     def parse(self, response):
         #quest_sums = response.xpath('//div[@class="question-summary"]')
