@@ -26,7 +26,7 @@ class SospiderSpider(scrapy.Spider):
             yield scrapy.Request(abs_n_l)
         """
 
-        for i in range(71,81):
+        for i in range(81,101):
             yield scrapy.Request('https://stackoverflow.com/questions/tagged/python?page='+str(i)+'&sort=votes&pagesize=50'
                                 , callback=self.parse_question_list)
 
