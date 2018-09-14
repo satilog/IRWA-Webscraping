@@ -9,7 +9,7 @@ class SospiderSpider(scrapy.Spider):
 
     def parse(self, response):
         #quest_sums = response.xpath('//div[@class="question-summary"]')
-
+        """
         question_links = response.xpath('//div[@class="question-summary"]//a[@class="question-hyperlink"]')
 
         for qlinks in question_links:
@@ -24,7 +24,22 @@ class SospiderSpider(scrapy.Spider):
         if(len(next_page_link) != 0):
             abs_n_l = response.urljoin(next_page_link)
             yield scrapy.Request(abs_n_l)
+        """
 
+        for i in range(1,20444):
+            yield scrapy.Request('https://stackoverflow.com/questions/tagged/python?page='+str(i)+'&sort=votes&pagesize=50'
+                                , callback=self.parse_question_list)
+
+    def parse_question_list(self, response):
+
+        question_links = response.xpath('//div[@class="question-summary"]//a[@class="question-hyperlink"]')
+
+        for qlinks in question_links:
+            # can use extract() just for safety use extract_first so spider can continue to run
+            rel_l = qlinks.xpath('./@href').extract_first()
+            abs_l = response.urljoin(rel_l)
+
+            yield scrapy.Request(abs_l, callback = self.parse_question_page)
 
     def parse_question_page(self, response):
 
