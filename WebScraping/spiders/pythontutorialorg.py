@@ -21,24 +21,24 @@ class PythontutorialorgSpider(scrapy.Spider):
         main = response.xpath('//div[@class="body"]/div[@class="section"]')
         l2_sect = main.xpath('./div[@class="section"]')
 
-        main_title = main.xpath('./h1/text()').extract_first()
-        main_desc = main.xpath('./p//text()').extract()
-        main_code = main.xpath('./div[@class="highlight-python3 notranslate"]//text()').extract()
+        main_title = (''.join(main.xpath('./h1//text()').extract())).replace('\n',' ')
+        main_desc = (''.join(main.xpath('./p//text()').extract())).replace('\n',' ')
+        main_code = (''.join(main.xpath('./div[@class="highlight-python3 notranslate"]//text()').extract())).replace('\n',' ')
 
         # Looping through level 2 sections.
         if(len(l2_sect) != 0):
             for l2 in l2_sect:
                 l3_sect = l2.xpath('./div[@class="section"]')
 
-                l2_title = l2.xpath('./h2/text()').extract_first()
-                l2_desc = l2.xpath('./p//text()').extract()
-                l2_code = l2.xpath('./div[@class="highlight-python3 notranslate"]//text()').extract()
+                l2_title = (''.join(l2.xpath('./h2//text()').extract())).replace('\n',' ')
+                l2_desc = (''.join(l2.xpath('./p//text()').extract())).replace('\n',' ')
+                l2_code = (''.join(l2.xpath('./div[@class="highlight-python3 notranslate"]//text()').extract())).replace('\n',' ')
 
                 if(len(l3_sect) != 0):
                     for l3 in l3_sect:
-                        l3_title = l3.xpath('./h3/text()').extract_first()
-                        l3_desc = l3.xpath('./p//text()').extract()
-                        l3_code = l3.xpath('./div[@class="highlight-python3 notranslate"]//text()').extract()
+                        l3_title = (''.join(l3.xpath('./h3//text()').extract())).replace('\n',' ')
+                        l3_desc = (''.join(l3.xpath('./p//text()').extract())).replace('\n',' ')
+                        l3_code = (''.join(l3.xpath('./div[@class="highlight-python3 notranslate"]//text()').extract())).replace('\n',' ')
 
                         yield { 'URL': response.url,
                                 'Language': 'Python',
@@ -62,8 +62,8 @@ class PythontutorialorgSpider(scrapy.Spider):
                             'L2_Desc': l2_desc,
                             'L2_Code': l2_code,
                             'L3_Title': '',
-                            'L3_Desc': [],
-                            'L3_Code': []
+                            'L3_Desc': '',
+                            'L3_Code': ''
                             }
         else:
             yield { 'URL': response.url,
@@ -72,9 +72,9 @@ class PythontutorialorgSpider(scrapy.Spider):
                     'M_Desc': main_desc,
                     'M_Code': main_code,
                     'L2_Title': '',
-                    'L2_Desc': [],
-                    'L2_Code': [],
+                    'L2_Desc': '',
+                    'L2_Code': '',
                     'L3_Title': '',
-                    'L3_Desc': [],
-                    'L3_Code': []
+                    'L3_Desc': '',
+                    'L3_Code': ''
                     }

@@ -37,7 +37,7 @@ class SospiderSpider(scrapy.Spider):
         q_title = quest_sect.xpath('.//div[@id="question-header"]//a[@class="question-hyperlink"]/text()').extract_first()
         q_votes = quest_sect.xpath('.//div[@class="question"]//*[@itemprop="upvoteCount"]/text()').extract_first()
         q_tags = quest_sect.xpath('.//div[@class="question"]//div[@class="post-taglist grid gs4 gsy fd-column"]//a')
-        q_cont = quest_sect.xpath('.//div[@class="question"]//div[@class="post-text"]//text()').extract()
+        q_cont = ((''.join(quest_sect.xpath('.//div[@class="question"]//div[@class="post-text"]//text()').extract())).replace('\n',' ')).replace('\r',' ')
 
         # Obtaining Tags
         taglist = []
@@ -54,7 +54,7 @@ class SospiderSpider(scrapy.Spider):
         #acc_ans = []
         if len(a_aa_sect) != 0:
             aa_votes = a_aa_sect.xpath('.//*[@itemprop="upvoteCount"]/text()').extract_first()
-            aa_cont = a_aa_sect.xpath('.//div[@class="post-text"]//text()').extract()
+            aa_cont = ((''.join(a_aa_sect.xpath('.//div[@class="post-text"]//text()').extract())).replace('\n',' ')).replace('\r',' ')
 
             yield { 'URL': response.url,
                     'Language': "Python",
@@ -71,7 +71,7 @@ class SospiderSpider(scrapy.Spider):
         if len(a_o_sect) != 0:
             for o_ans in a_o_sect:
                 oa_votes = o_ans.xpath('.//*[@itemprop="upvoteCount"]/text()').extract_first()
-                oa_cont = o_ans.xpath('.//div[@class="post-text"]//text()').extract() # list of the description
+                oa_cont = ((''.join(o_ans.xpath('.//div[@class="post-text"]//text()').extract())).replace('\n',' ')).replace('\r',' ') # list of the description
 
                 yield { 'URL': response.url,
                         'Language': "Python",
